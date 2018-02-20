@@ -127,13 +127,14 @@ func TagsFormat(tf TagFormat) Option {
 // already exists, it is replaced.
 //
 // The tags must be set as key-value pairs. If the number of tags is not even,
-// Tags panics.
+// the arguments will be ignored.
 //
 // If the format of tags have not been set using the TagsFormat option, the tags
 // will be ignored.
 func Tags(tags ...string) Option {
 	if len(tags)%2 != 0 {
-		panic("statsd: Tags only accepts an even number of arguments")
+		tags = nil
+		log.Printf("statsd: `Tags' only accepts an even number of arguments")
 	}
 
 	return Option(func(c *config) {
